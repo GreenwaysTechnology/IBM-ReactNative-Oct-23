@@ -1,0 +1,687 @@
+				React Native
+.....................................................................................
+
+Tech Stack:
+
+1.Javascript - E6
+2.React js Fundamentals
+3.Redux
+4.React Native
+.....................................................................................
+Lab Setup:
+..........
+
+1.node js - latest
+2.vs code
+
+ES 6 Fundamentals:
+.................
+
+What is ES 6?
+  IT is just version no of javascript language.
+
+What is javascript?
+   Javascript is Object based,functional style programming language.
+
+
+Stages of Javascript
+
+1.source code
+  index.js 
+2.compiled code
+  compiled code in javascript is visbile outside.
+  Every js code is compiled into byte code which is kept in memory
+3.Executable
+  After compilation we need run.
+  Js code is executed on js virtual machine or js engine.
+
+Js vm:
+1.embeded vm
+   Every browser has js vm
+   Inside Mobile app with respect to React native, there is embeded js - Hermes
+ chorme - v8
+2.standalone vm
+  node.js having js engine
+
+
+Version of Javascript:
+
+Javascript language created for browsers in 1995 for building dynamic web pages by NetsCap Communication.
+
+After javascript language created, the language was submitted to standard body called
+"ECMA" international
+
+After submission, the language was standarized and released by committee.
+
+1.ES 1.0 -->1996
+2.ES 3.0 -->1999
+3.ES 4.0 -->2006
+4.ES 5.0 --->2007
+5.ES 6.0 --->2012-2015
+6.ES 7.0 ----->2016
+etc.....
+
+....................................................................................
+Javascript learning path(ES6):
+..............................
+1.Language fundamentals
+2.Functions 
+3.Objects
+
+1.Language fundamentals
+ ->Variables
+ ->Literals
+ ->Type Systems
+
+1.variable declarations
+ 
+ let /const - es 6 keywords
+eg:
+ let firstName
+
+2.literals -values
+   strings,numbers,boolean,undefined,NaN,infinity,function,null,object
+
+3.Data types
+   js is dynamic typed language-the type of variable is understood only during runtime.
+  int a =10 - strongly typed
+  let a =20 - dynamic typed
+
+
+Project setup:
+
+Steps:
+E:\session\IBM\2023\oct\reactnative>mkdir es6apps
+
+E:\session\IBM\2023\oct\reactnative>cd es6apps
+
+E:\session\IBM\2023\oct\reactnative\es6apps>mkdir src
+
+E:\session\IBM\2023\oct\reactnative\es6apps>code .
+
+We can test code in node or browser:
+
+
+We can test code in node or browser:
+
+in Node:
+
+src
+ |
+ index.js
+console.log("Welcome to Javascript!!")
+
+E:\session\IBM\2023\July\reactnative\es6apps>node src/index.js
+
+
+If you want to run inside browser..
+
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="src/index.js"></script>
+</body>
+</html>
+....................................................................................
+				Variables,data types,Literals
+.....................................................................................
+
+Strings:
+//strings : "",'',``,${}
+
+let firstName = "Subramanian"
+let lastName = 'Murugan'
+console.log(firstName + " " + lastName)
+console.log(firstName, lastName)
+//es 6 feature -back tick(``) ${} -Interpolation
+console.log(`Your Name is ${firstName} ${lastName}`)
+
+let doc = `
+   <html>
+      <head>
+          <title></title>
+      </head>
+    <body>
+    </body>
+ </html>
+`
+console.log(doc)
+
+Numbers:
+ only type called number 
+ 64 bit aka double.
+//
+let price =100
+let qty =10
+let totalPrice = price * qty
+console.log(`Price ${price} Qty ${qty} Total Price ${totalPrice}`)
+
+Boolean:
+ true or false
+//booleans
+let isActive = true
+let isEnabled = false 
+console.log(`Is Active ${isActive} isEnabled ${isEnabled}`)
+
+Undefined:
+ Variable is declared without any value.
+
+
+let price;
+console.log(`Price is ${price}`)
+
+NaN - Not a Number
+
+NaN is number only which represents "error".
+If you do any numerical computation, if computation is failed you will get NaN.
+NaN is kind of "error".
+if you get NaN you have to fix beacuse is bug
+
+NaN Use case:
+if you do computation against undefined values, you get NaN.
+
+let qty;
+let price = 100
+let totalPrice = qty * price; //undefiend * number 
+console.log(`Qty ${qty} Price ${price} TotalPrice ${totalPrice}`)
+
+Infinity:
+  Div/0
+let price =190;
+let avg =  price/0
+console.log(`Price ${price} Avg ${avg}`)
+..................................................................................
+			Advanced Boolean
+..................................................................................
+What can be true or false?
+
+decision making : if..else ,tenary operator
+
+in javascript is every thing is true execept the following values 
+
+Falsy values
+
+ * 
+ *  1.boolean false
+ *  2.Empty string "" ,''
+ *  3.0
+ *  4.undefined
+ *  5.NaN
+ *  6.null
+ */
+
+//What can be false or true 
+
+let firstName = "Subramanian"
+
+if (firstName) {
+    console.log('Your name is valid')
+} else {
+    console.log('Your name is not valid')
+}
+let myvar;
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is ${myvar}`)
+}
+myvar = 0
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is ${myvar}`)
+}
+myvar = false
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is ${myvar}`)
+}
+
+myvar = ""
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is ${myvar}`)
+}
+....................................................................................
+				Operator -Equal
+
+== ->Double equal
+=== ->Triple equal
+!==
+!===
+
+let a = 10;
+let b = 10;
+
+if (a == b) {
+    console.log('a and b are equal')
+} else {
+    console.log('a and b are not equal')
+}
+
+
+let x = 10;
+let y = "10";
+// double equal always compares values only not types 
+if (x == y) {
+    console.log('x and y are equal')
+} else {
+    console.log('y and y are not equal')
+}
+// tripl equal always compares values and types
+if (x === y) {
+    console.log('x and y are equal')
+} else {
+    console.log('y and y are not equal')
+}
+
+Recommened: triple equal only.
+
+
+const:
+   it is read only where as let is reassignable.
+
+let a = 10;
+console.log(`a ${a}`)
+a = 90
+console.log(`a ${a}`)
+
+const b = 90;
+console.log(`b ${b}`)
+b = 90
+console.log(`b ${b}`)
+....................................................................................
+.....................................................................................
+			   Functions
+....................................................................................
+
+functions are building block of javascript language.
+functions encapsulate the logic of application.
+functions may take args and return values
+
+....................................................................................
+			  Functional Programming
+....................................................................................
+According to functional programming, function is just value like numbers,strings.
+
+since function is value can be assigned to a variable.
+
+If you assign the function with variable, then that function can be called with variableName.
+
+if you declare function with variables, without function name called "Anonymous function".
+
+//function as literal 
+
+function sayHello() {
+    return "Hello"
+}
+console.log(sayHello())
+
+//anonmous function 
+let hai = function () {
+    console.log('Hai')
+}
+hai()
+
+//args and params with anonmous funciton 
+let add = function (a = 0, b = 0) {
+    return a + b
+}
+console.log(add(10, 10))
+....................................................................................
+			Higher order function
+...................................................................................
+
+Since function is value can be passed to another function as parameter(value) - HOF
+
+....................................................................................
+			Higher order function
+...................................................................................
+
+Since function is value can be passed to another function as parameter(value)
+
+
+function greetMe(name) {
+    return `Hello ${name}`
+}
+console.log(greetMe('Subramanian'))
+
+// function connect(resolve) {
+//     resolve()
+// }
+let connect = function (resolve) {
+    resolve()
+}
+connect(function () {
+    console.log('connecting...')
+})
+.....................................................................................
+			 ES 6 Arrow function
+.....................................................................................
+
+ES 6 introduced new syntax to simplify the function declarations -Arrow function.
+//arrow functions 
+
+
+//es 5 style of writing anonymous function 
+let hello = function () {
+    console.log('hello')
+}
+hello()
+//es 6 style of writing anonymous function: arrow function 
+hello = () => {
+    console.log('hello')
+}
+hello()
+//In arrow if function has only one line of code : we can remove {} and arrow 
+hello = () => console.log('hello')
+hello()
+//args and parameters
+
+let add = function (a = 0, b = 0) {
+    return a + b
+}
+console.log(add(10, 10))
+
+add = (a = 0, b = 0) => {
+    return a + b
+}
+console.log(add(10, 10))
+
+//if function only return statement , we can remove {} and return statement
+add = (a = 0, b = 0) => a + b
+console.log(add(10, 10))
+
+//
+let getValue = function (value) {
+    return value
+}
+console.log(getValue(10))
+
+getValue = (value) => {
+    return value
+}
+console.log(getValue(10))
+
+getValue = (value) => value
+
+
+console.log(getValue(10))
+
+//if arg is single and no default value, we can remove ()
+getValue = value => value
+console.log(getValue(10))
+
+HOF and arrow:
+// function fetch(resolve) {
+//     resolve('response')
+// }
+// let response = function (res) {
+//     console.log(res)
+// }
+// fetch(response)
+// fetch(function (res) {
+//     console.log(res)
+// })
+
+const fetch = resolve => resolve('response')
+
+let response = res => console.log(res)
+
+fetch(response)
+
+fetch(res => console.log(res))
+.....................................................................................
+				  Objects
+.....................................................................................
+			
+Objects can be created in two ways
+
+1.constructors pattern
+   es 5 functions 
+   es 6 classes
+2.literal pattern
+
+
+class declaration:
+class Emplyoee {
+    //instance variables
+    id=0
+    name='Subramanian'
+    salary=100
+}
+//emp is just reference variable
+//new is keyword
+//Employee() consturctor call
+let emp = new Emplyoee()
+console.log(emp.id,emp.name,emp.salary)
+
+constructors:
+class Emplyoee {
+    //instance variables
+    id 
+    name
+    salary
+    constructor(id = 0, name = 'Subramanian', salary = 100) {
+        this.id = id 
+        this.name =name 
+        this.salary = salary
+    }
+}
+//emp is just reference variable
+//new is keyword
+//Employee() consturctor call
+let emp = new Emplyoee(2,'Subramanian Murugan',10000)
+console.log(emp.id, emp.name, emp.salary)
+
+methods:
+class TodoService {
+    constructor() {
+
+    }
+    //methods
+    findAll() {
+        return [{ id: 1, status: false, title: 'learn react' }]
+    }
+}
+let todoService = new TodoService()
+todoService.findAll().forEach(todo=>console.log(todo))
+
+Inheritance:
+............
+class Account {
+    constructor() {
+        console.log('account constructor')
+    }
+    deposit() {
+        return 100
+    }
+}
+class SavingsAccount extends Account {
+    constructor() {
+        super()
+        console.log('savings account')
+    }
+    deposit() {
+        return 10000 * super.deposit()
+    }
+}
+let sb = new SavingsAccount()
+console.log(sb.deposit())
+
+
+Literal pattern:
+//literal pattern 
+
+let employee = {
+    id: 1,
+    name: 'Subramanian',
+    address: {
+        city: 'Coimbatore'
+    }
+}
+console.log(employee.id, employee.name, employee.address.city)
+
+Arrays:
+.......
+
+let numList = [1, 2, 3, 4, 5, 6, 7, 8]
+numList.forEach(item => console.log(item))
+
+//customer list 
+let customerList = [
+    {
+        id:1,
+        name:'a1'
+    },
+    {
+        id:2,
+        name:'a2'
+    },
+    {
+        id:3,
+        name:'a3'
+    }
+]
+customerList.forEach(customer => console.log(customer.id,customer.name))
+...................................................................................				 Object DeStructuring
+...................................................................................
+
+//without object desstructuring:
+function printStudent_(student) {
+    console.log(`ID ${student.id}`)
+    console.log(`Name ${student.name}`)
+    console.log(`City ${student.address.city}`)
+}
+function printStudent__(student) {
+    //destructuring 
+    const { id, name, address } = student
+    console.log(`ID ${id}`)
+    console.log(`Name ${name}`)
+    console.log(`City ${address.city}`)
+}
+function printStudent___(student) {
+    //destructuring 
+    const { id, name, address: { city } } = student
+    console.log(`ID ${id}`)
+    console.log(`Name ${name}`)
+    console.log(`City ${city}`)
+}
+// function printStudent({ id, name, address: { city } }) {
+//     console.log(`ID ${id}`)
+//     console.log(`Name ${name}`)
+//     console.log(`City ${city}`)
+// }
+
+const printStudent = ({ id, name, address: { city } }) => {
+    console.log(`ID ${id}`)
+    console.log(`Name ${name}`)
+    console.log(`City ${city}`)
+}
+printStudent({ id: 1, name: 'Subramaian', address: { city: 'Coimbatore' } })
+....................................................................................
+			Object return and Destructuring from the function
+....................................................................................
+function getStock_() {
+    return {
+        id: 1,
+        symbol: 'google',
+        qty: 100,
+        price: 25000
+    }
+}
+console.log(getStock_())
+
+// function getStock(id,symbol,qty,price) {
+//     return {
+//         id: id,
+//         symbol: symbol,
+//         qty: qty,
+//         price: price
+//     }
+// }
+// console.log(getStock(1,'facebook',100,2344))
+
+// function getStock(id,symbol,qty,price) {
+//     return {
+//         //if key:value is same id:id , we can remove any one 
+//         id,
+//         symbol,
+//         qty,
+//         price
+//     }
+// }
+// console.log(getStock(1,'facebook',100,2344))
+
+//arrows
+// const getStock = (id = 0, symbol = 'google', qty = 0, price = 0) => {
+//     return {
+//         //if key:value is same id:id , we can remove any one 
+//         id,
+//         symbol,
+//         qty,
+//         price
+//     }
+// }
+// console.log(getStock(1, 'facebook', 100, 2344))
+
+const getStock = (id = 0, symbol = 'google', qty = 0, price = 0) => ({
+    id,
+    symbol,
+    qty,
+    price
+})
+
+console.log(getStock(1, 'facebook', 100, 2344))
+.....................................................................................
+....................................................................................
+			     ES 6 Modules
+...................................................................................
+
+To share code between files and folders.
+
+Keywords to share code:
+//share code
+1.export 
+2.export default
+
+3.import - to use files  within another js
+
+// export class CustomerController {
+//     constructor(){
+//         console.log('Customer controller')
+//     }
+// }
+
+export default class CustomerService {
+    constructor() {
+
+    }
+    //apis 
+    findAll() {
+        return "findAll Customers"
+    }
+}
+
+
+index.js
+// import { CustomerService,CustomerController } from './services/customer.service.js'
+import CustomerService from './services/customer.service.js'
+
+
+let customerService = new CustomerService();
+// let custCtrl = new CustomerController()
+console.log(customerService.findAll())
+
+
+
+
