@@ -889,8 +889,382 @@ Build Layouts based on compoenent composition
      ->Have three blogs
    Footer
      ->Copyright
+.....................................................................................
+			  Dynamic Page -  data binding
+.....................................................................................
+Types of app
+1.static app
+  only markup-html , hand coded.
+2.dynamic app
+   markup +data
+
+How to add data in the component or How to bind data in the compoent?
+
+Data can bet represented many ways
+
+1.primitives - numbers,strings,booleans
+2.objects - literals
+3.collections - arrays 
+
+let | const variableName ='value'
+
+{variableName}-data binding
+
+data binding can be 
+{variable}
+{expression} - {10*10} - {getValue()} {emp.id}
+
+import ReactDOM from "react-dom/client"
+
+//simple data binding 
+const Greeter = () => {
+    let message = 'Hello'
+    return <h1>{message}</h1>
+}
 
 
+const App = () => <>
+    <Greeter />
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+
+The above pattern is not recommended  to bind data.
+
+Data can be bound to component in two ways
+
+1.data is supplied from the outside the compoent
+2.data is encapsulated with in the component
+
+
+
+1.data is supplied from the outside the component
+  When component receives data from  the outside, this pattern is called as "Property Pattern or Props Pattern".
+
+Outside component means what? what is outside for the component?
+
+You know very well, react creates components and assembles them in tree model, the one component is called parent compoent and other component is child component , some other compoents are called as sibilings.
+
+outside means parent.
+
+Data is supplied from the parent compoent to child component - props pattern
+
+Imperative way of passing data to component.
+import ReactDOM from "react-dom/client"
+
+//child
+const Greeter = (message) => {
+    return <h1>{message}</h1>
+}
+
+//parent 
+const App = () => <>
+    {Greeter('Hello')}
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+
+delcarative pattern:
+import ReactDOM from "react-dom/client"
+
+//child
+const Greeter = props => {
+    console.log(props)
+    return <h1>{props.message} {props.name}</h1>
+}
+
+//parent 
+const App = () => <>
+    {/* {Greeter('Hello')} */}
+    {/* data is encapsulated into object and passed */}
+    <Greeter message="Hello"  name="Subramanian"/>
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+
+Why props?
+
+  Props helps components/widgets for configuration.
+
+
+I am going to create Configurable Profile Component, so that i can supply different types of profile data.
+
+import ReactDOM from "react-dom/client"
+
+const Profile = props => {
+    return <div>
+        <h1>Id {props.id}</h1>
+        <p>Name {props.name}</p>
+        <p>Status {props.status ? "onLine" : "OffLine"}</p>
+        <p>City {props.address.city}</p>
+    </div>
+}
+
+
+//parent 
+const App = () => <>
+    <Profile id={1} name="Subramanian" status={true} address={{ city: 'Coimbatore' }} />
+    <Profile id={2} name="Murugan" status={false} address={{ city: 'Chennai' }} />
+    <Profile id={3} name="Ram" status={true} address={{ city: 'Banaglore' }} />
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+
+.....................................................................................
+			Breaking component and passing data
+
+import ReactDOM from "react-dom/client"
+
+const Profile = props => <div>
+    <h1>Id {props.id}</h1>
+    <p>Name {props.name}</p>
+    <Status status={props.status} />
+    <Address address={props.address} />
+</div>
+
+const Status = props => <>
+    <p>Status {props.status ? "onLine" : "OffLine"}</p>
+</>
+const Address = props => <>
+    <p>City {props.address.city}</p>
+</>
+
+
+//parent 
+const App = () => <>
+    <Profile id={1} name="Subramanian" status={true} address={{ city: 'Coimbatore' }} />
+    <Profile id={2} name="Murugan" status={false} address={{ city: 'Chennai' }} />
+    <Profile id={3} name="Ram" status={true} address={{ city: 'Banaglore' }} />
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+.....................................................................................
+		  What if i dont supply props to compoents- default props
+....................................................................................
+import ReactDOM from "react-dom/client"
+
+const Profile = props => <div>
+    <h1>Id {props.id}</h1>
+    <p>Name {props.name}</p>
+    <Status status={props.status} />
+    <Address address={props.address} />
+</div>
+
+const Status = props => <>
+    <p>Status {props.status ? "onLine" : "OffLine"}</p>
+</>
+const Address = props => <>
+    <p>City {props.address.city}</p>
+</>
+
+//default Props 
+Profile.defaultProps = {
+    id: 0,
+    name: 'name',
+    status: false,
+    address: {
+        city: 'city'
+    }
+}
+
+
+
+
+//parent 
+const App = () => <>
+    <Profile />
+    <Profile id={1} name="Subramanian" status={true} address={{ city: 'Coimbatore' }} />
+    <Profile id={2} name="Murugan" address={{ city: 'Chennai' }} />
+
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+.....................................................................................
+			classes and props
+.....................................................................................import React from "react"
+import ReactDOM from "react-dom/client"
+
+class Profile extends React.Component {
+    render() {
+        return <div>
+            <h1>Id {this.props.id}</h1>
+            <h1> Name {this.props.name}</h1>
+            <Status status={this.props.status} />
+            <Address address={this.props.address} />
+        </div>
+    }
+}
+
+const Status = props => <>
+    <p>Status {props.status ? "onLine" : "OffLine"}</p>
+</>
+const Address = props => <>
+    <p>City {props.address.city}</p>
+</>
+
+//default Props 
+Profile.defaultProps = {
+    id: 0,
+    name: 'name',
+    status: false,
+    address: {
+        city: 'city'
+    }
+}
+
+
+
+
+//parent 
+const App = () => <>
+    <Profile />
+    <Profile id={1} name="Subramanian" status={true} address={{ city: 'Coimbatore' }} />
+    <Profile id={2} name="Murugan" address={{ city: 'Chennai' }} />
+
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+....................................................................................
+			 Object as prop...
+
+import React from "react"
+import ReactDOM from "react-dom/client"
+
+const Profile = props => {
+    return <div>
+        <h1>Id {props.profile.id}</h1>
+        <h1> Name {props.profile.name}</h1>
+        <Status status={props.profile.status} />
+        <Address address={props.profile.address} />
+    </div>
+
+}
+
+const Status = props => <>
+    <p>Status {props.status ? "onLine" : "OffLine"}</p>
+</>
+const Address = props => <>
+    <p>City {props.address.city}</p>
+</>
+
+//default Props 
+Profile.defaultProps = {
+    profile: {
+        id: 0,
+        name: 'name',
+        status: false,
+        address: {
+            city: 'city'
+        }
+    }
+}
+const profile = {
+    id: 1,
+    name: 'Subramanian',
+    status: false,
+    address: {
+        city: 'Coimbatore'
+    }
+}
+const App = () => <>
+    <Profile profile={profile} />
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+....................................................................................
+			 Object destructuring and Props.
+
+import React from "react"
+import ReactDOM from "react-dom/client"
+
+const Profile = props => {
+    const { id, name, status, address } = props.profile
+    return <div>
+        <h1>Id {id}</h1>
+        <h1> Name {name}</h1>
+        <Status status={status} />
+        <Address address={address} />
+    </div>
+}
+
+const Status = ({ status }) => <>
+    <p>Status {status ? "onLine" : "OffLine"}</p>
+</>
+const Address = ({ address: { city } }) => <>
+    <p>City {city}</p>
+</>
+
+//default Props 
+Profile.defaultProps = {
+    profile: {
+        id: 0,
+        name: 'name',
+        status: false,
+        address: {
+            city: 'city'
+        }
+    }
+}
+const profile = {
+    id: 1,
+    name: 'Subramanian',
+    status: false,
+    address: {
+        city: 'Coimbatore'
+    }
+}
+const App = () => <>
+    <Profile profile={profile} />
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
+.....................................................................................
+		 Property rethrow and Property Merging
+.....................................................................................
+import React from "react"
+import ReactDOM from "react-dom/client"
+
+const ProfileMaster = props => {
+    // const { id, name, status, address } = props.profile
+    return <div>
+        {/* <ProfileDetails id={id} name={name} status={status} address={address} /> */}
+        <ProfileDetails {...props.profile} />
+    </div>
+}
+
+const ProfileDetails = ({ id, name, status, address: { city } }) => {
+    return <>
+        <h1>Id {id}</h1>
+        <h4>Name {name}</h4>
+        <h3>Status {status ? "Online" : "OffLine"}</h3>
+        <h4>City {city}</h4>
+    </>
+}
+
+
+const profile = {
+    id: 1,
+    name: 'Subramanian',
+    status: false,
+    address: {
+        city: 'Coimbatore'
+    }
+}
+const App = () => <>
+    <ProfileMaster profile={profile} />
+</>
+
+const root = ReactDOM.createRoot(document.getElementById('root'))
+root.render(<App />)
 
 
 
