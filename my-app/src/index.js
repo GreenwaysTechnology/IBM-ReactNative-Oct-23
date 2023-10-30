@@ -1,34 +1,71 @@
-import React from "react"
+import { useEffect, useState } from "react"
 import ReactDOM from "react-dom/client"
 
-const ProfileMaster = props => {
-    // const { id, name, status, address } = props.profile
-    return <div>
-        {/* <ProfileDetails id={id} name={name} status={status} address={address} /> */}
-        <ProfileDetails {...props.profile} />
-    </div>
-}
 
-const ProfileDetails = ({ id, name, status, address: { city } }) => {
+const Error = props => {
     return <>
-        <h1>Id {id}</h1>
-        <h4>Name {name}</h4>
-        <h3>Status {status ? "Online" : "OffLine"}</h3>
-        <h4>City {city}</h4>
+        <h2>{props.error}</h2>
     </>
 }
+const Spinner = props => {
+    return <>
+        <h2>Loading....</h2>
+    </>
+}
+const PostList = props => {
+    console.log(props)
+    return <div>
+        {
+            props.posts.map(post => {
+                return <div key={post.id}>
+                    <h2>{post.id}</h2>
+                    <h6>{post.title}</h6>
+                    <p>{post.body}</p>
+                </div>
+            })
+        }
+    </div>
+}
+const Posts = props => {
+    let initalState = {
+        isLoaded: false,
+        items: [],
+        error: null
+    }
+    const [posts, setPosts] = useState(initalState)
 
+    async function fetchPosts() {
+        try {
+            const url = 'https://jsonplaceholder.typicode.com/posts'
+            const values = await (await fetch(url)).json()
+            setPosts({ ...posts, isLoaded: true, items: posts.items.concat(values) })
+        }
+        catch (err) {
+            setPosts({ ...posts, isLoaded: true, error: err })
 
-const profile = {
-    id: 1,
-    name: 'Subramanian',
-    status: false,
-    address: {
-        city: 'Coimbatore'
+        }
+    }
+
+    //useEffect : ComponentDidMount 
+    useEffect(() => {
+        fetchPosts()
+        console.log(posts)
+
+    }, [])
+
+    console.log(posts)
+    const { error, isLoaded, items } = posts
+    if (error) {
+        return <Error error={error} />
+    } else if (!isLoaded) {
+        return <Spinner />
+    } else {
+        return <PostList posts={items} />
     }
 }
+
 const App = () => <>
-    <ProfileMaster profile={profile} />
+    <Posts />
 </>
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
