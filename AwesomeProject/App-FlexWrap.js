@@ -89,10 +89,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        rowGap: 10,
-        columnGap: 10,
         justifyContent: 'center',
-        alignItems: 'center',
         marginBottom: 24
     }
 
