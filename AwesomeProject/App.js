@@ -1,99 +1,35 @@
-import { StyleSheet, View, Text } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View, Text, TextInput, Button, SafeAreaView, StatusBar } from "react-native";
 
 const App = () => {
-    return <View style={styles.container}>
-        <Text style={styles.headerStyle}>Flex wrap</Text>
-        <View style={styles.elementsContainer}>
-            <View style={{ width: 50, height: 50, backgroundColor: 'red' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
+    return <SafeAreaView style={page.container}>
+        <StatusBar
+            animated={true}
+            backgroundColor="lightblue"
+            barStyle="dark-content"
 
-            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
-
-            <View style={{ width: 50, height: 50, backgroundColor: 'yellow' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'green' }} />
-
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'white' }} />
-            <View style={{ width: 50, height: 50, backgroundColor: 'blue' }} />
-
-
-        </ View>
-    </View>
+        />
+    </SafeAreaView>
 }
 export default App;
 
-const styles = StyleSheet.create({
+//Common style
+const page = StyleSheet.create({
     container: {
-        flex: 1
-    },
-    headerStyle: {
-        fontSize: 29,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginBottom: 24,
-        color: 'blue'
-    },
-    elementsContainer: {
         flex: 1,
-        backgroundColor: 'black',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        rowGap: 10,
-        columnGap: 10,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 24
+        padding: 24,
+        backgroundColor: 'pink'
+    },
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+        backgroundColor: 'white'
+    },
+    text: {
+        fontSize: 30,
+        color: '#000'
     }
 
 })
