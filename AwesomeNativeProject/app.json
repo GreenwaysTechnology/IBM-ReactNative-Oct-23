@@ -1,0 +1,10 @@
+{
+  "name": "AwesomeNativeProject",
+  "displayName": "AwesomeNativeProject",
+  "expo": {
+    "plugins": [
+      "expo-location",
+      "expo-av"
+    ]
+  }
+}

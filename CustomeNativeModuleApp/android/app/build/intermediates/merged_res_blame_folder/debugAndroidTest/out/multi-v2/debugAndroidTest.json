@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.customnativemoduleapp.test.app-merged_res-4:/values_values.arsc.flat",
+            "map": [
+                {
+                    "source": "E:\\session\\IBM\\2023\\Oct\\ReactNative\\CustomNativeModuleApp\\android\\app\\build\\generated\\res\\resValues\\androidTest\\debug\\values\\gradleResValues.xml",
+                    "from": {
+                        "startLines": "6,8",
+                        "startColumns": "4,4",
+                        "startOffsets": "159,265",
+                        "endColumns": "63,68",
+                        "endOffsets": "218,329"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,119",
+                        "endColumns": "63,68",
+                        "endOffsets": "114,183"
+                    }
+                }
+            ]
+        }
+    ]
+}

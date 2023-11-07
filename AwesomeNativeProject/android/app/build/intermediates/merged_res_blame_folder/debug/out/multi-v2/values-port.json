@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.awesomenativeproject.app-mergeDebugResources-43:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\sasub\\.gradle\\caches\\transforms-3\\37dea234d1b78ffc0f7609ef26888d9c\\transformed\\appcompat-1.4.1\\res\\values-port\\values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}
