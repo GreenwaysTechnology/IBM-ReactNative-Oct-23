@@ -3019,7 +3019,7 @@ const styles = StyleSheet.create({
 });
 ..................................................................................
 				Drawer Navigation
-..................................................................................				Drawer
+..................................................................................				     Drawer
 .....................................................................................
 
 Steps to install drawer dependency:
@@ -3709,12 +3709,552 @@ export default App;
 
 You see the messages in android studio log cat.
 
+.....................................................................................
+				Native Methods
+.....................................................................................
+
+Method can return result back to react native code(js) 
+
+Since most of the time native methods are async methods, results can be returned via callbacks or promises.
+
+
+
+
+package com.customnativemoduleapp;
+
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+
+public class CalendarModule extends ReactContextBaseJavaModule {
+    CalendarModule(ReactApplicationContext context) {
+        super(context);
+    }
+
+    @NonNull
+    @Override
+    public String getName() {
+        return "CalendarModule";
+    }
+
+    //@ReactMethod(isBlockingSynchronousMethod = false)
+//    @ReactMethod
+//    public void createCalendarEvent(String name, String location) {
+//        Log.d("CalendarModule", "create event called with name" + name + "and location" + location);
+//    }
+
+    //callback based
+//    @ReactMethod
+//    public void createCalendarEvent(String name, String location, Callback callback) {
+//        Log.d("CalendarModule", "create event called with name" + name + "and location" + location);
+//        //talking low level service and once the result is available, we can send result to javascript
+//        Integer eventId = 100;
+//        callback.invoke(eventId);
+//    }
+    //Promsise based
+    @ReactMethod
+    public void createCalendarEvent(String name, String location, Promise promise) {
+        Log.d("CalendarModule", "create event called with name" + name + "and location" + location);
+        //talking low level service and once the result is available, we can send result to javascript
+//        Integer eventId = 100;
+        //  callback.invoke(eventId);
+        try {
+            Integer eventId = 1000;
+            promise.resolve(eventId);
+        } catch (Exception e) {
+            promise.reject("Cant create Event", e);
+        }
+    }
+}
+
+Javascript:
+import { NativeModules, Button, View, Alert } from "react-native";
+
+const { CalendarModule } = NativeModules;
+
+function App() {
+    const onGetResult = async () => {
+        // CalendarModule.createCalendarEvent('Learn React Native', 'Online', eventId => {
+        //     Alert.alert(`${eventId}`)
+        // });
+        try {
+            const eventId = await CalendarModule.createCalendarEvent('Learn React Native', 'Online')
+            Alert.alert(`${eventId}`)
+        }
+        catch (e) {
+            Alert.alert(`${e.getMessage()}`)
+        }
+
+    }
+
+    return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Button title="CreateEvent" onPress={() => {
+            CalendarModule.createCalendarEvent('learn react native', 'IBM')
+        }} />
+        <Button title="CreateEvent With Result" onPress={onGetResult} />
+    </View>
+}
+
+export default App;
+.....................................................................................
+				 Redux Integration
+.....................................................................................
+
+What is Redux?
+ Redux is a lib, to manage state of application.
+
+State of the application is maintained in the many places
+
+1.With in application
+  with in component - using state
+2.outside application
+   redux
+
+Why we need redux?
+ Redux is necessary when your app state is shared across the application.
+ Redux is necessary when many team of people working on single code base.
  
+React with Redux is based on the design called "flux design pattern"
+
+Core concepts:
+1.State
+   Redux maintains or stores the data in single object called as application state.
+2.Store:
+   Store is object where redux application  state lives
+   Store offers api to communicate from react and redux to react
+
+3.Reducer 
+   It is pure function which always returns immutable object
+
+4.actions
+   Request payload , contains what todo.
+   actions are plain objects
+5.Dispatcher
+   It is transporter which transports action object from react to redux.
+
+6.React-Redux binding object
+   It responsible to transfer state from redux to react and react to redux.
+.....................................................................................
+			 Redux lib
+
+in order to redux we have two implementations
+
+1.old redux
+2.modern redux
+
+We are going to modern redux called redux-toolkit.
+
+npm install @reduxjs/toolkit react-redux
+
+
+import { configureStore } from '@reduxjs/toolkit'
+import { View, StyleSheet, Text, Button, Alert } from 'react-native'
+import { Provider, useSelector, useDispatch } from 'react-redux'
+
+//Step:1 Delcare reducer
+const CounterReducer = (intialState = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/increment':
+            return { ...intialState, counter: intialState.counter + 1 }
+        default:
+            return intialState
+    }
+}
+//create store obejct 
+const store = configureStore({
+    reducer: {
+        //list of reducers
+        counter: CounterReducer
+    }
+})
 
 
 
+//Compoment which recieves state from Redux and also send action(request for muation)
+
+const Counter = props => {
+    //grab redux state via hook: useSelector
+    const value = useSelector(state => {
+        //appState.reducerName
+        return state.counter
+    })
+
+    //declare dispatcher
+    const dispatch = useDispatch();
+
+    const onIncrement = () => {
+        //pass action: action is just object having key called type 
+        dispatch({
+            type: 'counter/increment'
+        })
+    }
+    return <>
+        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Counter {value.counter} </Text>
+        <Button title="OnIncrement" onPress={onIncrement} />
+    </>
+}
+
+
+const App = () => {
+    return <Provider store={store}>
+        <View style={styles.container}>
+            <Counter />
+        </View>
+    </Provider>
+}
+export default App;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})
+
+.................
+
+Multliple Reducers:
+import { configureStore } from '@reduxjs/toolkit'
+import { View, StyleSheet, Text, Button, Alert } from 'react-native'
+import { Provider, useSelector, useDispatch } from 'react-redux'
+
+const CounterReducer = (intialState = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/increment':
+            return { ...intialState, counter: intialState.counter + 1 }
+        default:
+            return intialState
+    }
+}
+const ReviewReducer = (intialState = { like: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'review/like':
+            return { ...intialState, like: intialState.like + 1 }
+        default:
+            return intialState
+    }
+}
+//create store obejct 
+const store = configureStore({
+    reducer: {
+        //list of reducers
+        counter: CounterReducer,
+        like: ReviewReducer
+    }
+})
+
+const Counter = props => {
+    //grab redux state via hook: useSelector
+    const value = useSelector(state => {
+        //appState.reducerName
+        console.log(state)
+        return state.counter
+    })
+
+    //declare dispatcher
+    const dispatch = useDispatch();
+
+    const onIncrement = () => {
+        //pass action: action is just object having key called type 
+        dispatch({
+            type: 'counter/increment'
+        })
+    }
+    return <>
+        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Counter {value.counter} </Text>
+        <Button title="OnIncrement" onPress={onIncrement} />
+    </>
+}
+
+const Like = props => {
+    //grab redux state via hook: useSelector
+    const value = useSelector(state => {
+        //appState.reducerName
+        return state.like
+    })
+
+    //declare dispatcher
+    const dispatch = useDispatch();
+
+    const onIncrement = () => {
+        //pass action: action is just object having key called type 
+        dispatch({
+            type: 'review/like'
+        })
+    }
+    return <>
+        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Like {value.like} </Text>
+        <Button title="OnIncrement" onPress={onIncrement} />
+    </>
+}
+
+
+const App = () => {
+    return <Provider store={store}>
+        <View style={styles.container}>
+            <Counter />
+            <Like />
+        </View>
+    </Provider>
+}
+export default App;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})
+.....................................................................................
+			   React and Redux - State mutation
+.....................................................................................
+In React ,Objects must be mutated by using pure functions and immuablity.
+
+When we deal with nested object we face issues, we face complexity...
+
+let customer = {
+  id:1,
+  name:'Subramanian'
+  contact: {
+	address: {
+	  city:'Xx'
+	}
+   }
+}
+Here i want to update city using immutablity
+
+Syntax:
+
+ function UpdateCity(customer,city){
+
+	return {
+	    ...customer, -level-0,id,name,contact
+	      contact: {
+		...customer.contact, //level-1
+		contact:{
+		  ...customer.contact.address, // level-2
+                    city:city
+		}
+	      }
+         }
+ }
+
+ updateCity({
+  id:1,
+  name:'Subramanian'
+  contact: {
+	address: {
+	  city:'Xx'
+	}
+   }
+},'coimbatore')
+
+normal js
+ customer.contact.adress.city=city
+.....................................................................................
+				immer js
+
+immer js is lib which abstracts complxity of writing immutable code in mutable way...
+import { configureStore } from '@reduxjs/toolkit'
+import { produce } from 'immer'
+import { View, StyleSheet, Text, Button, Alert } from 'react-native'
+import { Provider, useSelector, useDispatch } from 'react-redux'
+
+//Step:1 Delcare reducer
+const CounterReducer = (intialState = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/increment':
+            //return { ...intialState, counter: intialState.counter + 1 }
+            return produce(intialState, draftState => {
+                draftState.counter += 1
+            })
+        default:
+            return intialState
+    }
+}
+//create store obejct 
+const store = configureStore({
+    reducer: {
+        //list of reducers
+        counter: CounterReducer
+    }
+})
 
 
 
+//Compoment which recieves state from Redux and also send action(request for muation)
+
+const Counter = props => {
+    //grab redux state via hook: useSelector
+    const value = useSelector(state => {
+        //appState.reducerName
+        return state.counter
+    })
+
+    //declare dispatcher
+    const dispatch = useDispatch();
+
+    const onIncrement = () => {
+        //pass action: action is just object having key called type 
+        dispatch({
+            type: 'counter/increment'
+        })
+    }
+    return <>
+        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Counter {value.counter} </Text>
+        <Button title="OnIncrement" onPress={onIncrement} />
+    </>
+}
+
+
+const App = () => {
+    return <Provider store={store}>
+        <View style={styles.container}>
+            <Counter />
+        </View>
+    </Provider>
+}
+export default App;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})
+...................................................................................
+				 Reducers Patterns
+
+1.old way of writting reducers
+2.createReducer function
+3.createSlice function
+
+
+1.old way of writting reducers
+
+const CounterReducer = (intialState = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case 'counter/increment':
+            //return { ...intialState, counter: intialState.counter + 1 }
+            return produce(intialState, draftState => {
+                draftState.counter += 1
+            })
+        default:
+            return intialState
+    }
+}
+
+2.createReducer,create slice
+import { configureStore, createReducer, createSlice } from '@reduxjs/toolkit'
+import { produce } from 'immer'
+import { View, StyleSheet, Text, Button, Alert } from 'react-native'
+import { Provider, useSelector, useDispatch } from 'react-redux'
+
+//old way of writting reducers
+// const CounterReducer = (intialState = { counter: 10 }, action) => {
+//     //biz logic
+//     switch (action.type) {
+//         case 'counter/increment':
+//             //return { ...intialState, counter: intialState.counter + 1 }
+//             return produce(intialState, draftState => {
+//                 draftState.counter += 1
+//             })
+//         default:
+//             return intialState
+//     }
+// }
+//new way: createReducer
+
+// const CounterReducer = createReducer(initalState = { counter: 100 }, builder => {
+//     builder.addCase('counter/increment', (state, action) => {
+//         //internally it is using immer js produce function
+//         state.counter++
+//     }).addDefaultCase((state, action) => {
+//         console.log('default case', state)
+//     })
+// })
+
+//new way create slice:
+const CounterSlice = createSlice({
+    name: 'Counter',
+    initialState: {
+        counter: 1002
+    },
+    reducers: {
+        increment(state) {
+            state.counter++
+        }
+    },
+    extraReducers: builder => {
+        builder.addDefaultCase((state, action) => { })
+    }
+})
+//Extract reducers and actions 
+const { increment } = CounterSlice.actions
+const CounterReducer = CounterSlice.reducer
+
+
+//create store obejct 
+const store = configureStore({
+    reducer: {
+        //list of reducers
+        counter: CounterReducer
+    }
+})
+
+
+
+//Compoment which recieves state from Redux and also send action(request for muation)
+
+const Counter = props => {
+    //grab redux state via hook: useSelector
+    const value = useSelector(state => {
+        //appState.reducerName
+        return state.counter
+    })
+
+    //declare dispatcher
+    const dispatch = useDispatch();
+
+    const onIncrement = () => {
+        //pass action: action is just object having key called type 
+        dispatch({
+            type: increment
+            //type: 'counter/increment'
+        })
+    }
+    return <>
+        <Text style={{ fontWeight: 'bold', fontSize: 20 }}>Counter {value.counter} </Text>
+        <Button title="OnIncrement" onPress={onIncrement} />
+    </>
+}
+
+
+const App = () => {
+    return <Provider store={store}>
+        <View style={styles.container}>
+            <Counter />
+        </View>
+    </Provider>
+}
+export default App;
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})
 
 
